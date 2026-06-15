@@ -1,0 +1,7 @@
+{
+  "_comment": "Demo-safe fixture (replayed instead of calling Gemini). Violation case: HCW touches the patient with NO prior hand hygiene -> M1 violation, score 0.0.",
+  "duration_s": 12.0,
+  "events": [
+    {"type": "touch_patient", "start_t": 4.0, "confidence": 0.95, "evidence": "nurse contacts the patient without prior hand hygiene"}
+  ]
+}

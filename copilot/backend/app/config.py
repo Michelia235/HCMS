@@ -45,4 +45,13 @@ ROLE_CONF = float(os.getenv("ROLE_CONF", "0.35"))
 POSE_ONNX_PATH = Path(os.getenv(
     "POSE_ONNX_PATH", str(COPILOT_ROOT / "perception" / "weight_v2" / "pose.onnx")))
 
+# Demo-safe mode: when a curated events fixture exists for an uploaded clip, the
+# pipeline replays it INSTEAD of calling Gemini -> the demo is deterministic and
+# can't die mid-presentation on a free-tier quota / outage. Fixtures live in a
+# tracked dir (committed) keyed by original filename. Set DEMO_FIXTURES=0 to
+# force live VLM even for known clips.
+DEMO_FIXTURES_ENABLED = os.getenv("DEMO_FIXTURES", "1") == "1"
+DEMO_FIXTURES_DIR = Path(os.getenv(
+    "DEMO_FIXTURES_DIR", str(COPILOT_ROOT / "demo" / "fixtures")))
+
 UPLOAD_DIR.mkdir(exist_ok=True)

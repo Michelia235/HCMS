@@ -1,0 +1,8 @@
+{
+  "_comment": "Demo-safe fixture (replayed instead of calling Gemini). Compliant case: hand hygiene BEFORE touching the patient -> M1 compliant, score 1.0.",
+  "duration_s": 14.0,
+  "events": [
+    {"type": "hand_hygiene", "start_t": 5.0, "confidence": 0.96, "evidence": "nurse rubs hands at the dispenser before approaching the bed"},
+    {"type": "touch_patient", "start_t": 10.0, "confidence": 0.95, "evidence": "nurse contacts the patient's arm"}
+  ]
+}

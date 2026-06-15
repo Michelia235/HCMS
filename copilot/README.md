@@ -35,4 +35,8 @@ $env:PYTHONPATH = "backend"
   dung UI, API reference, troubleshooting.
 - **[DEPLOY.md](DEPLOY.md)** - huong dan deploy CHI TIET (Render backend + Vercel frontend):
   kien truc, tung buoc, gotchas (CV grounding, ephemeral FS, CORS, quota), chi phi.
+- **[DEMO.md](DEMO.md)** - kich ban demo (web app + camera real-time) + **demo-safe mode**
+  (replay clip demo, khong chet quota Gemini) + cau hoi/tra loi.
+- **[PILOT_PROPOSAL.md](PILOT_PROPOSAL.md)** - de xuat trien khai thu tai benh vien
+  (chao moi): van de, giai phap, rieng tu, ke hoach trial, metric.
 - `PLAN_COPILOT.md` - ke hoach + chia task theo track + roadmap.
