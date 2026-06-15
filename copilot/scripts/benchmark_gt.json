@@ -1,0 +1,35 @@
+{
+  "_note": "Ground truth for the compliance benchmark. 'scenarios' = expert-labeled event timelines -> which rules SHOULD fire as violations (measures the reasoner/policy logic). 'cv_contact' = hand-labeled true HCW<->patient contact intervals on demo clips (measures the CV perception). Add more annotated clips here to grow N -- the two clips are a seed, not a statistically meaningful sample.",
+
+  "scenarios": [
+    {"name": "clean before patient",        "events": [["hand_hygiene", 1, 12], ["touch_patient", 5]], "expect_violations": []},
+    {"name": "dirty touch (unknown start)",  "events": [["touch_patient", 5]], "expect_violations": ["M1"]},
+    {"name": "surroundings then patient",    "events": [["touch_surroundings", 2], ["touch_patient", 5]], "expect_violations": ["M1", "M5"]},
+    {"name": "clean before aseptic",         "events": [["hand_hygiene", 1, 12], ["aseptic_procedure", 5]], "expect_violations": []},
+    {"name": "dirty before aseptic",         "events": [["touch_patient", 2], ["aseptic_procedure", 5]], "expect_violations": ["M1", "M2", "M4"]},
+    {"name": "fluid then patient",           "events": [["body_fluid_exposure", 2], ["touch_patient", 5]], "expect_violations": ["M1", "M3"]},
+    {"name": "fluid then aseptic",           "events": [["body_fluid_exposure", 2], ["aseptic_procedure", 5]], "expect_violations": ["M2", "M3"]},
+    {"name": "two contacts no hygiene",      "events": [["touch_patient", 2], ["touch_patient", 8]], "expect_violations": ["M1", "M1", "M4"]},
+    {"name": "hygiene between contacts",     "events": [["touch_patient", 2], ["hand_hygiene", 5, 12], ["touch_patient", 8]], "expect_violations": ["M1"]},
+    {"name": "glove off contaminates",       "events": [["hand_hygiene", 1, 12], ["glove_off", 3], ["touch_patient", 5]], "expect_violations": ["M1"]},
+    {"name": "glove on keeps clean",         "events": [["hand_hygiene", 1, 12], ["glove_on", 3], ["touch_patient", 5]], "expect_violations": []},
+    {"name": "full compliant round",         "events": [["hand_hygiene", 1, 12], ["touch_patient", 5], ["hand_hygiene", 9, 12], ["aseptic_procedure", 12]], "expect_violations": []},
+    {"name": "short wash then patient",      "events": [["hand_hygiene", 1, 4], ["touch_patient", 5]], "expect_violations": []},
+    {"name": "surroundings+fluid then touch","events": [["touch_surroundings", 1], ["body_fluid_exposure", 2], ["touch_patient", 5]], "expect_violations": ["M1", "M3", "M5"]},
+    {"name": "hygiene fixes contamination",  "events": [["touch_surroundings", 1], ["hand_hygiene", 3, 12], ["touch_patient", 5]], "expect_violations": []}
+  ],
+
+  "cv_contact": [
+    {"clip": "demo_violation.mp4",       "true_intervals": [[4.5, 8.2]]},
+    {"clip": "demo_compliant.mp4",       "true_intervals": [[6.0, 14.0]]},
+    {"clip": "bench_comp_contact.mp4",   "true_intervals": [[0.0, 8.0]]},
+    {"clip": "bench_comp_hygiene.mp4",   "true_intervals": []}
+  ],
+
+  "_hygiene_note": "Hand-hygiene (hands-rubbing) detection ground truth, hand-labeled by eye. has_hygiene = the clip contains a real hand-rub. Negatives present so false positives are measured (bedside two-handed tasks are the known FP source).",
+  "hygiene_detection": [
+    {"clip": "bench_comp_hygiene.mp4", "has_hygiene": true},
+    {"clip": "bench_comp_contact.mp4", "has_hygiene": false},
+    {"clip": "bench_viol_contact.mp4", "has_hygiene": false}
+  ]
+}

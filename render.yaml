@@ -1,0 +1,25 @@
+# Render Blueprint for the Hand Hygiene Compliance Copilot backend.
+# Render -> New -> Blueprint -> point at this repo. Then set GEMINI_API_KEY
+# (a FRESHLY ROTATED key) as a secret in the dashboard.
+services:
+  - type: web
+    name: hh-copilot-api
+    runtime: docker
+    plan: free
+    dockerfilePath: copilot/Dockerfile
+    dockerContext: copilot
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false              # set in dashboard (secret) - never commit
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: CORS_ORIGINS
+        sync: false              # set to your Vercel URL after frontend deploy
+      - key: SAMPLE_EVERY_S
+        value: "3.0"
+      - key: MAX_FRAMES
+        value: "40"
+      - key: BATCH_SIZE
+        value: "6"
