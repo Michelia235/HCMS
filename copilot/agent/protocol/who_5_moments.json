@@ -1,0 +1,51 @@
+{
+  "name": "WHO 5 Moments for Hand Hygiene",
+  "version": "1.0",
+  "description": "Default protocol. A hospital can copy this file, edit rules/thresholds, and point the engine at it (PROTOCOL_PATH env) WITHOUT touching code or models -- as long as the events referenced are ones the perception layer already detects.",
+
+  "hand_state": {
+    "clean_on": ["hand_hygiene"],
+    "dirty_on": ["touch_patient", "touch_surroundings", "body_fluid_exposure", "glove_off"]
+  },
+
+  "flags": {
+    "surroundings_pending": {"set_on": ["touch_surroundings"], "clear_on": ["hand_hygiene"]},
+    "fluid_pending":        {"set_on": ["body_fluid_exposure"], "clear_on": ["hand_hygiene"]}
+  },
+
+  "rules": [
+    {
+      "id": "M1", "moment": "M1", "name": "Truoc khi cham benh nhan",
+      "on": ["touch_patient"], "opportunity": true,
+      "require": {"hands": "clean"}, "severity": "medium",
+      "ok": "Tay sach (da ve sinh) ngay truoc khi cham BN.",
+      "bad": "Tay khong sach truoc khi cham BN (chua ve sinh tay)."
+    },
+    {
+      "id": "M2", "moment": "M2", "name": "Truoc thu thuat vo trung",
+      "on": ["aseptic_procedure"], "opportunity": true,
+      "require": {"hands": "clean"}, "severity": "high",
+      "ok": "Tay sach ngay truoc thu thuat vo trung.",
+      "bad": "Tay khong sach truoc thu thuat vo trung."
+    },
+    {
+      "id": "M3", "moment": "M3", "name": "Sau nguy co dich co the",
+      "on": ["touch_patient", "aseptic_procedure"], "opportunity": false,
+      "require": {"flag_clear": "fluid_pending"}, "severity": "high",
+      "bad": "Sau nguy co tiep xuc dich co the, tiep xuc ma chua ve sinh tay."
+    },
+    {
+      "id": "M5", "moment": "M5", "name": "Sau khi cham moi truong quanh BN",
+      "on": ["touch_patient"], "opportunity": false,
+      "require": {"flag_clear": "surroundings_pending"}, "severity": "low",
+      "bad": "Cham moi truong quanh BN roi cham BN ma chua ve sinh tay."
+    },
+    {
+      "id": "M4", "moment": "M4", "name": "Sau khi cham benh nhan",
+      "on": ["touch_patient"], "opportunity": false,
+      "require": {"hygiene_before_next": ["touch_patient", "aseptic_procedure"]},
+      "severity": "low",
+      "bad": "Sau khi cham BN, bat dau tiep xuc moi ma chua ve sinh tay."
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "name": "Benh vien X - Quy trinh ve sinh tay (vi du tuy chinh)",
+  "version": "1.0",
+  "description": "Vi du: benh vien chinh file nay de them luat MA KHONG sua code/model. Ke thua 5 Moment WHO + them: rua tay toi thieu 10s, phai rua trong vong 60s truoc khi cham BN, va canh bao khi ty le tuan thu < 80%.",
+
+  "hand_state": {
+    "clean_on": ["hand_hygiene"],
+    "dirty_on": ["touch_patient", "touch_surroundings", "body_fluid_exposure", "glove_off"]
+  },
+  "flags": {
+    "surroundings_pending": {"set_on": ["touch_surroundings"], "clear_on": ["hand_hygiene"]},
+    "fluid_pending":        {"set_on": ["body_fluid_exposure"], "clear_on": ["hand_hygiene"]}
+  },
+
+  "rules": [
+    {"id": "M1", "moment": "M1", "name": "Truoc khi cham benh nhan",
+     "on": ["touch_patient"], "opportunity": true,
+     "require": {"hands": "clean"}, "severity": "medium",
+     "ok": "Tay sach ngay truoc khi cham BN.", "bad": "Tay khong sach truoc khi cham BN."},
+
+    {"id": "M2", "moment": "M2", "name": "Truoc thu thuat vo trung",
+     "on": ["aseptic_procedure"], "opportunity": true,
+     "require": {"hands": "clean"}, "severity": "high",
+     "ok": "Tay sach truoc thu thuat.", "bad": "Tay khong sach truoc thu thuat."},
+
+    {"id": "M3", "moment": "M3", "name": "Sau nguy co dich co the",
+     "on": ["touch_patient", "aseptic_procedure"], "opportunity": false,
+     "require": {"flag_clear": "fluid_pending"}, "severity": "high",
+     "bad": "Sau dich co the, tiep xuc ma chua ve sinh tay."},
+
+    {"id": "M4", "moment": "M4", "name": "Sau khi cham benh nhan",
+     "on": ["touch_patient"], "opportunity": false,
+     "require": {"hygiene_before_next": ["touch_patient", "aseptic_procedure"]},
+     "severity": "low", "bad": "Sau khi cham BN, tiep xuc moi ma chua ve sinh tay."},
+
+    {"id": "M5", "moment": "M5", "name": "Sau khi cham moi truong quanh BN",
+     "on": ["touch_patient"], "opportunity": false,
+     "require": {"flag_clear": "surroundings_pending"}, "severity": "low",
+     "bad": "Cham moi truong roi cham BN ma chua ve sinh tay."},
+
+    {"id": "HW_MIN", "name": "Rua tay toi thieu 10 giay",
+     "on": ["hand_hygiene"], "opportunity": true,
+     "require": {"min_duration_s": 10}, "severity": "high",
+     "ok": "Rua tay du thoi luong (>= 10s).",
+     "bad": "Rua tay chua du 10 giay theo quy dinh benh vien."},
+
+    {"id": "M1_WINDOW", "name": "Phai rua tay trong vong 60s truoc khi cham BN",
+     "on": ["touch_patient"], "opportunity": false,
+     "require": {"hygiene_within_before_s": 60}, "severity": "medium",
+     "bad": "Lan ve sinh tay gan nhat qua 60s truoc khi cham BN."}
+  ],
+
+  "aggregate": [
+    {"id": "SHIFT_RATE", "name": "Canh bao ty le tuan thu ca truc",
+     "metric": "compliance_rate", "op": "lt", "value": 0.8, "severity": "high",
+     "bad": "Ty le tuan thu < 80% - can nhac nho/dao tao lai."},
+
+    {"id": "HW_REPEAT", "name": "Nhieu lan rua tay khong dat",
+     "metric": "violation_count_for", "rule_id": "HW_MIN", "op": "ge", "value": 2,
+     "severity": "medium", "bad": "Co >= 2 lan rua tay khong du thoi luong."}
+  ]
+}

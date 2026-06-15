@@ -1,0 +1,23 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+demo_out/
+*.mp4
+uploads/
+*.sqlite
+*.db
+node_modules/
+frontend/dist/
+
+# Model weights are distributed via Drive (too heavy for git / Render deploy).
+# perception/ runs LOCAL only; the backend image never needs these.
+*.pt
+*.pth
+*.onnx
+perception/weight_v2/
+perception/cv_engineer_drop/
+
+# Generated training data / runs (rebuild via scripts/prep_hygiene_data.py)
+data/
+runs/

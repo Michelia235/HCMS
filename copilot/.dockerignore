@@ -1,0 +1,14 @@
+# Keep the build context small + never ship secrets/data.
+.env
+.venv
+**/__pycache__/
+*.pyc
+copilot.sqlite
+uploads/
+frontend/
+scripts/
+demo_out/
+*.md
+*.avi
+*.mp4
+.git/

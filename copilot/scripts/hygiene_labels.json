@@ -1,0 +1,10 @@
+{
+  "_note": "Clip-level labels for building a hand-hygiene action classifier dataset. label = the action shown. The pipeline crops the HANDS region (via pose wrists) so the model learns the ACTION, not the room background. THIS IS A SEED for the pipeline -- a real model needs many clips/people/sites (e.g. Kaggle 'Hand Wash Dataset', or labeled ward footage). For interval-level labels add an 'intervals' field per clip.",
+  "clips": [
+    {"clip": "bench_comp_hygiene.mp4", "label": "hand_hygiene"},
+    {"clip": "demo_compliant.mp4",     "label": "hand_hygiene", "intervals": [[0, 5]]},
+    {"clip": "bench_comp_contact.mp4", "label": "other"},
+    {"clip": "bench_viol_contact.mp4", "label": "other"},
+    {"clip": "demo_violation.mp4",     "label": "other"}
+  ]
+}

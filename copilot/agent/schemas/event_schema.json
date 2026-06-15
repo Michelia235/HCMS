@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HandHygieneEvent",
+  "description": "One detected clinical event on the video timeline.",
+  "type": "object",
+  "required": ["type", "start_t", "confidence"],
+  "properties": {
+    "id": { "type": "string", "description": "stable id, e.g. evt_0007" },
+    "type": {
+      "type": "string",
+      "enum": [
+        "hand_hygiene",
+        "glove_on",
+        "glove_off",
+        "touch_patient",
+        "touch_surroundings",
+        "aseptic_procedure",
+        "body_fluid_exposure"
+      ]
+    },
+    "start_t": { "type": "number", "description": "seconds from video start" },
+    "end_t": { "type": ["number", "null"], "description": "seconds; null if instantaneous" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "frame_idx": { "type": ["integer", "null"] },
+    "evidence": { "type": "string", "description": "short VLM description of what was seen" }
+  },
+  "additionalProperties": false
+}

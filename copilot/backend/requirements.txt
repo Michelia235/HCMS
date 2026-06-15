@@ -1,0 +1,12 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+pydantic==2.9.2
+python-multipart==0.0.12
+opencv-python==4.10.0.84
+numpy==1.26.4
+pillow==10.4.0
+google-genai==0.8.0
+python-dotenv==1.0.1
+# Inline role detector (app/role_detect.py): CPU-only, light, NO torch needed.
+# The .onnx model is distributed separately (gitignored) -- see ARCHITECTURE.md.
+onnxruntime==1.26.0
