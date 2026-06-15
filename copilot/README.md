@@ -32,5 +32,7 @@ $env:PYTHONPATH = "backend"
   data flow, tung layer (VLM detect -> timeline -> reasoner -> CV role-aware
   grounding -> chat -> API -> frontend), trang thai phase, han che.
 - **[HUONG_DAN_SU_DUNG.md](HUONG_DAN_SU_DUNG.md)** - setup, chay local (backend+frontend),
-  dung UI, API reference, deploy (Render+Vercel), troubleshooting.
+  dung UI, API reference, troubleshooting.
+- **[DEPLOY.md](DEPLOY.md)** - huong dan deploy CHI TIET (Render backend + Vercel frontend):
+  kien truc, tung buoc, gotchas (CV grounding, ephemeral FS, CORS, quota), chi phi.
 - `PLAN_COPILOT.md` - ke hoach + chia task theo track + roadmap.
